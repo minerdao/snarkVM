@@ -149,7 +149,7 @@ pub fn polymul<T: std::clone::Clone>(
 pub fn msm<Affine, Projective, Scalar>(points: &[Affine], scalars: &[Scalar]) -> Result<Projective, cuda::Error> {
     let npoints = scalars.len();
     if npoints > points.len() {
-        panic!("length mismatch {} points < {} scalars", npoints, scalars.len())
+        //panic!("length mismatch {} points < {} scalars", npoints, scalars.len())
     }
     #[allow(clippy::uninit_assumed_init)]
     let mut ret: Projective = unsafe { std::mem::MaybeUninit::uninit().assume_init() };

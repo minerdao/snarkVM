@@ -30,8 +30,8 @@ pub struct VariableBase;
 impl VariableBase {
     pub fn msm<G: AffineCurve>(bases: &[G], scalars: &[<G::ScalarField as PrimeField>::BigInteger]) -> G::Projective {
         // For BLS12-377, we perform variable base MSM using a batched addition technique.
-        if TypeId::of::<G>() == TypeId::of::<G1Affine>() {
-            #[cfg(all(feature = "cuda", target_arch = "x86_64"))]
+        //if TypeId::of::<G>() == TypeId::of::<G1Affine>() {
+            //#[cfg(all(feature = "cuda", target_arch = "x86_64"))]
             // TODO SNP: where to set the threshold
             if scalars.len() > 1024 {
                 let result =
@@ -40,12 +40,13 @@ impl VariableBase {
                     return result;
                 }
             }
+	    println!("cpu msm");
             batched::msm(bases, scalars)
-        }
+        //}
         // For all other curves, we perform variable base MSM using Pippenger's algorithm.
-        else {
-            standard::msm(bases, scalars)
-        }
+        //else {
+        //    standard::msm(bases, scalars)
+        //}
     }
 
     #[cfg(test)]
